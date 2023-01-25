@@ -3,6 +3,7 @@ import Head from "next/head";
 import Image from "next/image";
 import { Inter } from "@next/font/google";
 import styles from "@/styles/Home.module.css";
+import ClipLoader from "react-spinners/ClipLoader";
 import axios from "axios";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -10,7 +11,7 @@ const inter = Inter({ subsets: ["latin"] });
 export default function Home() {
   const [draws, setDraws] = useState([]);
   const API_URL = "http://localhost:8000";
-  const [isLoading, setIsLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   // Getting data from API
   useEffect(() => {
@@ -19,7 +20,7 @@ export default function Home() {
       const response = await axios.get(API_URL);
       if (response) {
         setDraws(response.data);
-        setIsLoading(false);
+        setLoading(false);
         console.log(draws);
       } else {
         console.log("error");
@@ -28,9 +29,19 @@ export default function Home() {
     fetchData();
   }, []);
 
-  if (isLoading) {
+  if (loading) {
     // should show loading animation
     // return react-spinner instance
+    return (
+      <div>
+        <ClipLoader
+          color={"#1E3438"}
+          loading={loading}
+          size={150}
+          aria-label="Loading Spinner"
+        />
+      </div>
+    );
   }
 
   return (
